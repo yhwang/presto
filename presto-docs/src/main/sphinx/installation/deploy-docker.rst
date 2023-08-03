@@ -58,7 +58,7 @@ Installing and Running the Presto Docker container
 
    This command also assigns the name ``presto`` for ``ahanaio/prestodb-sandbox``.
 
-   If you see a response similar to the following, the Presto server is running in the Docker container.
+  The Presto server begins logging startup information in the terminal window. Once you see a response similar to the following, the Presto server is running in the Docker container.
 
    ``======== SERVER STARTED ========``
 
