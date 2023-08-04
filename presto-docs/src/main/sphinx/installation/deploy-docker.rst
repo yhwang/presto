@@ -34,6 +34,8 @@ verify your Docker setup by running the command in step 4.
 
    ``colima start``
 
+   *Note*: The default VM created by Colima has 2 CPUs, 2GiB memory and 60GiB storage. If you need to customize the resources for the VM, check this `doc <https://github.com/abiosoft/colima#customizing-the-vm>`_.
+
 4. To verify your local setup, run the following command:
 
    ``docker run hello-world``
