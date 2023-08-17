@@ -38,7 +38,7 @@ jobs:
       - name: Populate maven cache
         if: steps.cache-maven.outputs.cache-hit != 'true'
         run: ./mvnw de.qaware.maven:go-offline-maven-plugin:resolve-dependencies -P ci
-      - name: Maven Checks
+      - name: Maven Checks - presto-main
         run: |
           export MAVEN_OPTS="${MAVEN_INSTALL_OPTS}"
           ./mvnw install -B -V -T C1 -DskipTests -P ci -pl '!presto-test-coverage'
