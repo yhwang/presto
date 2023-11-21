@@ -16,7 +16,7 @@ wget --quiet https://repo1.maven.org/maven2/com/facebook/presto/presto-server/${
 wget --quiet https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/${VERSION}/presto-cli-${VERSION}-executable.jar
 
 docker buildx create --name mycontainer --bootstrap --use
-docker buildx build --builder=mycontainer --platform="${ARCHS}" --force-rm --quiet \
+docker buildx build --builder=mycontainer --platform="${ARCHS}" --force-rm --provenance=false \
     -t "${REGISTRY}/yihongwang/presto:${TAG}" --build-arg="PRESTO_VERSION=${VERSION}" --push -f Dockerfile .
 
 docker buildx rm mycontainer
