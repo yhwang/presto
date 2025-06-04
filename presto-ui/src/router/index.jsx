@@ -1,7 +1,6 @@
-import React from "react";
-import {ClusterHUD} from "./components/ClusterHUD";
-import {QueryList} from "./components/QueryList";
-import {PageTitle} from "./components/PageTitle";
+import {ClusterHUD} from "./ClusterHUD";
+import {QueryList} from "./QueryList";
+import {PageTitle} from "./PageTitle";
 
 import { createRoot } from 'react-dom/client';
 const container = document.getElementById('title');
@@ -21,5 +20,5 @@ const query = document.getElementById('query-list');
 const query_root = createRoot(query);
 
 query_root.render(
-    <QueryList />
+    <QueryList/>
 );
