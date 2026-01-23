@@ -42,3 +42,10 @@ if ! yarn --cwd ${WEBUI_ROOT}/ run lint --quiet; then
     echo "ERROR: ESlint errors found"
     exit 1
 fi
+
+# Run tests to make sure they pass
+
+if ! yarn --cwd ${WEBUI_ROOT}/ run test; then
+    echo "ERROR: Tests failed"
+    exit 1
+fi

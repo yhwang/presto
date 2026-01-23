@@ -21,6 +21,48 @@ export default [
             },
         },
     },
+    // Node.js config files
+    {
+        files: ["**/*.config.js", "**/*.config.mjs"],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+    },
+    // Jest setup file (needs both Node.js and Jest globals)
+    {
+        files: ["jest.setup.js"],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+                ...globals.jest,
+            },
+        },
+    },
+    // Mock files
+    {
+        files: ["__mocks__/**/*.js"],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+    },
+    // Test files (Jest + Node.js for require and global)
+    {
+        files: ["**/*.test.js", "**/*.test.jsx", "**/*.test.ts", "**/*.test.tsx"],
+        languageOptions: {
+            globals: {
+                ...globals.jest,
+                ...globals.node,
+                global: "writable",
+            },
+        },
+        rules: {
+            "@typescript-eslint/no-require-imports": "off",
+        },
+    },
     // React (JSX files)
     {
         files: ["**/*.jsx"],
@@ -84,6 +126,13 @@ export default [
             react: {
                 version: "detect",
             },
+        },
+    },
+    // TypeScript test files - override TypeScript rules for test files
+    {
+        files: ["**/*.test.ts", "**/*.test.tsx"],
+        rules: {
+            "@typescript-eslint/no-require-imports": "off",
         },
     },
     prettierEslint,
