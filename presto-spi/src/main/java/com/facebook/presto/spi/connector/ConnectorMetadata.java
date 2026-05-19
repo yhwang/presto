@@ -417,6 +417,15 @@ public interface ConnectorMetadata
     }
 
     /**
+     * Set the default value for the specified column for future writes.
+     * The exact semantics are connector-defined.
+     */
+    default void setColumnDefault(ConnectorSession session, ConnectorTableHandle tableHandle, String columnName, Object defaultValue)
+    {
+        throw new PrestoException(NOT_SUPPORTED, "This connector does not support setting column defaults");
+    }
+
+    /**
      * Drop the specified column
      */
     default void dropColumn(ConnectorSession session, ConnectorTableHandle tableHandle, ColumnHandle column)
