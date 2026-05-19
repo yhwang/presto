@@ -366,7 +366,6 @@ public final class SystemSessionProperties
     public static final String JOIN_PREFILTER_BUILD_SIDE = "join_prefilter_build_side";
     public static final String JOIN_PREFILTER_COMPLEX_BUILD_SIDE = "join_prefilter_build_side_with_complex_probe_side";
     public static final String OPTIMIZER_USE_HISTOGRAMS = "optimizer_use_histograms";
-    public static final String WARN_ON_COMMON_NAN_PATTERNS = "warn_on_common_nan_patterns";
     public static final String INLINE_PROJECTIONS_ON_VALUES = "inline_projections_on_values";
     public static final String INCLUDE_VALUES_NODE_IN_CONNECTOR_OPTIMIZER = "include_values_node_in_connector_optimizer";
     public static final String ENABLE_EMPTY_CONNECTOR_OPTIMIZER = "enable_empty_connector_optimizer";
@@ -2142,10 +2141,6 @@ public final class SystemSessionProperties
                         "whether or not to use histograms in the CBO",
                         featuresConfig.isUseHistograms(),
                         false),
-                booleanProperty(WARN_ON_COMMON_NAN_PATTERNS,
-                        "Whether to give a warning for some common issues relating to NaNs",
-                        functionsConfig.getWarnOnCommonNanPatterns(),
-                        false),
                 booleanProperty(INLINE_PROJECTIONS_ON_VALUES,
                         "Whether to evaluate project node on values node",
                         featuresConfig.getInlineProjectionsOnValues(),
@@ -3774,11 +3769,6 @@ public final class SystemSessionProperties
     public static boolean shouldOptimizerUseHistograms(Session session)
     {
         return session.getSystemProperty(OPTIMIZER_USE_HISTOGRAMS, Boolean.class);
-    }
-
-    public static boolean warnOnCommonNanPatterns(Session session)
-    {
-        return session.getSystemProperty(WARN_ON_COMMON_NAN_PATTERNS, Boolean.class);
     }
 
     public static boolean isInlineProjectionsOnValues(Session session)
