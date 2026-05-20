@@ -230,6 +230,7 @@ public final class IcebergUtil
     private static final Logger log = Logger.get(IcebergUtil.class);
     public static final int MIN_FORMAT_VERSION_FOR_DELETE = 2;
     public static final int MAX_FORMAT_VERSION_FOR_ROW_LEVEL_OPERATIONS = 2;
+    public static final int MIN_FORMAT_VERSION_FOR_ROW_LINEAGE = 3;
     public static final int MAX_SUPPORTED_FORMAT_VERSION = 3;
 
     public static final long DOUBLE_POSITIVE_ZERO = 0x0000000000000000L;
@@ -318,6 +319,11 @@ public final class IcebergUtil
         else {
             throw new PrestoException(NOT_SUPPORTED, "Unsupported Table type: " + table.getClass().getName());
         }
+    }
+
+    public static boolean supportsRowLineage(Table table)
+    {
+        return opsFromTable(table).current().formatVersion() >= MIN_FORMAT_VERSION_FOR_ROW_LINEAGE;
     }
 
     public static void validateMinimumFormatVersion(Table table, int minVersion, String errorMessage)
