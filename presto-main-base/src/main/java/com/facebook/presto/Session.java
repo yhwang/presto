@@ -571,7 +571,7 @@ public final class Session
                 transactionId,
                 clientTransactionSupport,
                 identity.getUser(),
-                identity.getPrincipal().map(Principal::toString),
+                identity.getPrincipal().map(Principal::getName),
                 source,
                 catalog,
                 schema,
