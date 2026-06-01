@@ -45,6 +45,13 @@
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${dep.log4j.version}</version>
             </dependency>
+            <!-- Added to address a vulnerability(CVE-2026-45205) originating from commons-configuration2:jar:2.12.0,which is transitively included through the pinot-spi JAR.
+            This can be removed after upgrading Pinot, since newer Pinot version use the non-vulnerable commons-configuration2:2.15.1. -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-configuration2</artifactId>
+                <version>2.15.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
