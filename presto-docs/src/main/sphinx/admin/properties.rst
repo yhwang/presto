@@ -1863,3 +1863,17 @@ fails.
 Optional values written into the sidecar's ``config.properties`` to satisfy
 required-property checks in deployment-specific native worker initialization paths.
 Leave unset if not required by your deployment.
+
+Geometry Properties
+-------------------
+
+``legacy-st-equals``
+^^^^^^^^^^^^^^^^^^^^
+
+* **Type:** ``boolean``
+* **Default value:** ``false``
+
+Enable legacy behavior for the ``ST_Equals`` geospatial function.
+See ``ST_Equals`` in :ref:`functions/geospatial:Relationship Tests` for details on the behavior differences.
+
+The corresponding session property is :ref:`admin/properties-session:\`\`legacy_st_equals\`\``.

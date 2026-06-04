@@ -53,7 +53,8 @@ public class TestFunctionsConfig
                 .setLegacyCharToVarcharCoercion(false)
                 .setLegacyJsonCast(true)
                 .setCanonicalizedJsonExtract(false)
-                .setDefaultNamespacePrefix(JAVA_BUILTIN_NAMESPACE.toString()));
+                .setDefaultNamespacePrefix(JAVA_BUILTIN_NAMESPACE.toString())
+                .setLegacyStEquals(false));
     }
 
     @Test
@@ -81,6 +82,7 @@ public class TestFunctionsConfig
                 .put("legacy-json-cast", "false")
                 .put("presto.default-namespace", "native.default")
                 .put("canonicalized-json-extract", "true")
+                .put("legacy-st-equals", "true")
                 .build();
 
         FunctionsConfig expected = new FunctionsConfig()
@@ -104,7 +106,8 @@ public class TestFunctionsConfig
                 .setLegacyCharToVarcharCoercion(true)
                 .setLegacyJsonCast(false)
                 .setDefaultNamespacePrefix("native.default")
-                .setCanonicalizedJsonExtract(true);
+                .setCanonicalizedJsonExtract(true)
+                .setLegacyStEquals(true);
         assertFullMapping(properties, expected);
     }
 }
