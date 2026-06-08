@@ -167,7 +167,7 @@ The maximum size of the request header from the HTTP server.
 
 Note: The default value can cause errors when large session properties
 or other large session information is involved.
-See :ref:`troubleshoot/query:\`\`Request Header Fields Too Large\`\``.
+See :ref:`troubleshoot/query:Request Header Fields Too Large`.
 
 ``offset-clause-enabled``
 ^^^^^^^^^^^^^^^^^^^^^^^^^
