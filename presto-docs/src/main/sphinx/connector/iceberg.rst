@@ -314,8 +314,7 @@ the data and delete files of Iceberg tables are stored in S3. An example configu
     hive.s3.endpoint=http://192.168.0.103:9878
     hive.s3.path-style-access=true
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
 ``HIVE``, ``NESSIE``, ``REST``, and ``HADOOP`` Iceberg catalogs are supported in Presto C++.
 
@@ -348,7 +347,7 @@ Property Name                                           Description             
 ``iceberg.compression-codec``                           The compression codec to use when writing files. The          ``ZSTD``                           Yes                 No, write is not supported yet
                                                         available values are ``NONE``, ``SNAPPY``, ``GZIP``,
                                                         ``LZ4``, and ``ZSTD``.
-                                                        
+
                                                         Note: ``LZ4`` is only available when
                                                         ``iceberg.file-format=ORC``.
 
@@ -708,8 +707,7 @@ JMX query to get the metrics and verify the cache usage::
 
     Manifest file cache statistics are only available through the JMX connector when the Iceberg connector is configured with a HIVE catalog type.
 
-Presto C++ Support
-~~~~~~~~~~~~~~~~~~
+.. rubric:: Presto C++ Support
 
 Manifest file caching is supported in Presto C++.
 
@@ -736,8 +734,7 @@ JMX queries to get the metrics and verify the cache usage::
 
     SHOW TABLES FROM jmx.current like '%alluxio%';
 
-Presto C++ Support
-~~~~~~~~~~~~~~~~~~
+.. rubric:: Presto C++ Support
 
 Alluxio data caching is applicable for Presto Java. Async data cache is supported in Presto C++. See :ref:`async_data_caching_and_prefetching`.
 
@@ -772,8 +769,7 @@ JMX queries to get the metrics and verify the cache usage::
 
     SELECT * FROM jmx.current."com.facebook.presto.hive:name=iceberg_parquetmetadata,type=cachestatsmbean";
 
-Presto C++ Support
-~~~~~~~~~~~~~~~~~~
+.. rubric:: Presto C++ Support
 
 File and stripe footer cache is not applicable for Presto C++.
 
@@ -943,8 +939,7 @@ number 2).
 
 For V1/V2 tables, the column returns ``NULL``.
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
 All above metadata columns are supported in Presto C++.
 
@@ -1144,8 +1139,7 @@ Provides metadata log entries for the table.
      2024-12-28 23:42:42.207 Asia/Kolkata      | hdfs://localhost:9000/user/hive/warehouse/iceberg_schema.db/region1/metadata/00001-61151efc-0e01-4a47-a5e6-7b72749cc4a8.metadata.json | 5841566266546816471 |                0 |                      2
      2024-12-28 23:42:47.591 Asia/Kolkata      | hdfs://localhost:9000/user/hive/warehouse/iceberg_schema.db/region1/metadata/00002-d4a9c326-5053-4a26-9082-d9fbf1d6cd14.metadata.json | 6894018661156805064 |                0 |                      3
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
 All above metadata tables, except `$changelog`, are supported in Presto C++.
 
@@ -1203,9 +1197,9 @@ Examples:
 
   .. note::
 
-    When registering a table with the Hive metastore, the user calling the procedure 
-    is set as the owner of the table and has ``SELECT``, ``INSERT``, ``UPDATE``, and 
-    ``DELETE`` privileges for that table. These privileges can be altered using the 
+    When registering a table with the Hive metastore, the user calling the procedure
+    is set as the owner of the table and has ``SELECT``, ``INSERT``, ``UPDATE``, and
+    ``DELETE`` privileges for that table. These privileges can be altered using the
     ``GRANT`` and ``REVOKE`` commands.
 
   .. note::
@@ -1629,8 +1623,7 @@ Examples:
 
     CALL iceberg.system.rewrite_manifests('schema_name', 'table_name', 0);
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
 All above procedures are supported in Presto C++.
 
@@ -1884,8 +1877,7 @@ Transform Name        Source Types
 ``Hour``              ``timestamp``
 ===================== =======================================================================
 
-Presto C++ Support
-~~~~~~~~~~~~~~~~~~
+.. rubric:: Presto C++ Support
 
 Reads from tables with partition column transforms is supported in Presto C++.
 
@@ -2408,8 +2400,7 @@ schema evolution, such as adding, dropping, and renaming columns. With schema
 evolution, users can evolve a table schema with SQL after enabling the Presto
 Iceberg connector.
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
 Schema evolution is supported in Presto C++.
 
@@ -2420,10 +2411,9 @@ Presto now supports Parquet writer versions V1 and V2 for the Iceberg catalog.
 It can be toggled using the session property ``parquet_writer_version`` and the config property ``hive.parquet.writer.version``.
 Valid values for these properties are ``PARQUET_1_0`` and ``PARQUET_2_0``. Default is ``PARQUET_1_0``.
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
- Reading Parquet data written with Parquet writer version V1 is supported in Presto C++.
+Reading Parquet data written with Parquet writer version V1 is supported in Presto C++.
 
 Example Queries
 ^^^^^^^^^^^^^^^
@@ -2767,7 +2757,7 @@ The quotes are required to prevent the SQL parser from interpreting the dot as a
 
     -- Create a branch first
     ALTER TABLE orders CREATE BRANCH 'audit_branch';
-    
+
     -- Insert data into the branch
     INSERT INTO "orders.branch_audit_branch" VALUES (1, 'Product A', 100.00);
     INSERT INTO "orders.branch_audit_branch" VALUES (2, 'Product B', 200.00);
@@ -2778,7 +2768,7 @@ The quotes are required to prevent the SQL parser from interpreting the dot as a
 
     -- Update specific rows in the branch
     UPDATE "orders.branch_audit_branch" SET price = 120.00 WHERE id = 1;
-    
+
     -- Update with complex expressions
     UPDATE "orders.branch_audit_branch"
     SET price = price * 1.1
@@ -2790,7 +2780,7 @@ The quotes are required to prevent the SQL parser from interpreting the dot as a
 
     -- Delete specific rows from the branch
     DELETE FROM "orders.branch_audit_branch" WHERE id = 2;
-    
+
     -- Delete with complex predicates
     DELETE FROM "orders.branch_audit_branch"
     WHERE created_date < DATE '2024-01-01';
@@ -2814,7 +2804,7 @@ After performing mutations on a branch, you can verify that the main table remai
 
     -- Query the branch to see changes
     SELECT * FROM orders FOR SYSTEM_VERSION AS OF 'audit_branch';
-    
+
     -- Query the main table (unchanged)
     SELECT * FROM orders;
 
@@ -2850,8 +2840,7 @@ Branch mutations are partially supported in Presto C++.
 
 * **Supported:** ``INSERT``, ``TRUNCATE TABLE``
 
-Presto C++ Support
-^^^^^^^^^^^^^^^^^^
+.. rubric:: Presto C++ Support
 
 Time travel queries are supported in Presto C++.
 

@@ -515,7 +515,7 @@ Only fires for single-grouping-set aggregations with deterministic arguments and
 union branches. ``GROUPING SETS``, ``ROLLUP``, ``CUBE``, and global (no-``GROUP BY``)
 aggregations are not pushed.
 
-The corresponding configuration property is :ref:`admin/properties:\`\`optimizer.push-aggregation-through-disjoint-union\`\``.
+The corresponding configuration property is ``optimizer.push-aggregation-through-disjoint-union``.
 
 ``join_reordering_strategy``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -786,7 +786,7 @@ enabled. Disabled by default because cloning additional probe-side work adds pla
 and runtime overhead, which only pays off when the build side is large enough to dominate
 the join cost.
 
-The corresponding configuration property is :ref:`admin/properties:\`\`optimizer.join-prefilter-build-side-with-complex-probe-side\`\``.
+The corresponding configuration property is ``optimizer.join-prefilter-build-side-with-complex-probe-side``.
 
 ``push_filter_through_selecting_aggregation``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1870,7 +1870,7 @@ Maximum wait for the sidecar to become reachable on its HTTP port before bootstr
 fails.
 
 ``metadata-sidecar.storage-oncall-name``, ``metadata-sidecar.storage-user-name``, ``metadata-sidecar.storage-service-name``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * **Type:** ``string``
 * **Default value:** (empty)
