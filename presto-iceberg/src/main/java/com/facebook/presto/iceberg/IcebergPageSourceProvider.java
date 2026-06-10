@@ -940,7 +940,8 @@ public class IcebergPageSourceProvider
                 split.getFileFormat(),
                 maxOpenPartitions,
                 table.getSortOrder(),
-                sortParameters);
+                sortParameters,
+                IcebergSessionProperties.getTargetMaxFileSize(session).toBytes());
 
         ConnectorPageSource dataSource = new IcebergUpdateablePageSource(
                 tableSchema,

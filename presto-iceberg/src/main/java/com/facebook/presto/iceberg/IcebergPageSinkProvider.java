@@ -108,7 +108,8 @@ public class IcebergPageSinkProvider
                 tableHandle.getFileFormat(),
                 getMaxPartitionsPerWriter(session),
                 tableHandle.getSortOrder(),
-                sortParameters);
+                sortParameters,
+                IcebergSessionProperties.getTargetMaxFileSize(session).toBytes());
     }
 
     @Override
