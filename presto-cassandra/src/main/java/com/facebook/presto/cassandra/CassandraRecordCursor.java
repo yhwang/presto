@@ -13,13 +13,14 @@
  */
 package com.facebook.presto.cassandra;
 
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
+import com.datastax.oss.driver.api.core.cql.ResultSet;
+import com.datastax.oss.driver.api.core.cql.Row;
 import com.facebook.presto.common.predicate.NullableValue;
 import com.facebook.presto.common.type.Type;
 import com.facebook.presto.spi.RecordCursor;
 import io.airlift.slice.Slice;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static io.airlift.slice.Slices.utf8Slice;
@@ -32,19 +33,21 @@ public class CassandraRecordCursor
     private final ResultSet rs;
     private Row currentRow;
     private long count;
+    private Iterator<Row> iterator;
 
     public CassandraRecordCursor(CassandraSession cassandraSession, List<FullCassandraType> fullCassandraTypes, String cql)
     {
         this.fullCassandraTypes = fullCassandraTypes;
         rs = cassandraSession.execute(cql);
+        this.iterator = rs.iterator();
         currentRow = null;
     }
 
     @Override
     public boolean advanceNextPosition()
     {
-        if (!rs.isExhausted()) {
-            currentRow = rs.one();
+        if (iterator.hasNext()) {
+            currentRow = iterator.next();
             count++;
             return true;
         }
@@ -83,7 +86,7 @@ public class CassandraRecordCursor
             case FLOAT:
                 return currentRow.getFloat(i);
             case DECIMAL:
-                return currentRow.getDecimal(i).doubleValue();
+                return currentRow.getBigDecimal(i).doubleValue();
             default:
                 throw new IllegalStateException("Cannot retrieve double for " + getCassandraType(i));
         }
@@ -103,9 +106,9 @@ public class CassandraRecordCursor
             case COUNTER:
                 return currentRow.getLong(i);
             case TIMESTAMP:
-                return currentRow.getTimestamp(i).getTime();
+                return currentRow.getInstant(i).toEpochMilli();
             case DATE:
-                return currentRow.getDate(i).getDaysSinceEpoch();
+                return currentRow.getLocalDate(i).toEpochDay();
             case FLOAT:
                 return floatToRawIntBits(currentRow.getFloat(i));
             default:
@@ -131,13 +134,18 @@ public class CassandraRecordCursor
     @Override
     public Object getObject(int field)
     {
+        if (getCassandraType(field) == CassandraType.VECTOR) {
+            // Vector columns are read as ARRAY values; the engine materializes them through getObject.
+            return CassandraType.getColumnValue(currentRow, field, fullCassandraTypes.get(field)).getValue();
+        }
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Type getType(int i)
     {
-        return getCassandraType(i).getNativeType();
+        FullCassandraType fullCassandraType = fullCassandraTypes.get(i);
+        return CassandraType.getPrestoType(fullCassandraType.getCassandraType(), fullCassandraType.getTypeArguments());
     }
 
     @Override

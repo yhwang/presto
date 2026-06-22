@@ -13,9 +13,7 @@
  */
 package com.facebook.presto.cassandra;
 
-import com.datastax.driver.core.CloseFuture;
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.DelegatingCluster;
+import com.datastax.oss.driver.api.core.CqlSession;
 import com.facebook.airlift.log.Logger;
 import com.google.errorprone.annotations.ThreadSafe;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
@@ -26,62 +24,65 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Verify.verify;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Wrapper around CqlSession that automatically reopens the session if it gets closed.
+ * This is useful for handling transient connection issues.
+ */
 @ThreadSafe
-public class ReopeningCluster
-        extends DelegatingCluster
+public class ReopeningSession
 {
-    private static final Logger log = Logger.get(ReopeningCluster.class);
+    private static final Logger log = Logger.get(ReopeningSession.class);
 
     @GuardedBy("this")
-    private Cluster delegate;
+    private CqlSession delegate;
+
     @GuardedBy("this")
     private boolean closed;
 
-    private final Supplier<Cluster> supplier;
+    private final Supplier<CqlSession> sessionSupplier;
 
-    public ReopeningCluster(Supplier<Cluster> supplier)
+    public ReopeningSession(Supplier<CqlSession> sessionSupplier)
     {
-        this.supplier = requireNonNull(supplier, "supplier is null");
+        this.sessionSupplier = requireNonNull(sessionSupplier, "sessionSupplier is null");
     }
 
-    @Override
-    protected synchronized Cluster delegate()
+    public synchronized CqlSession get()
     {
-        checkState(!closed, "Cluster has been closed");
+        checkState(!closed, "Session has been closed");
 
         if (delegate == null) {
-            delegate = supplier.get();
+            delegate = sessionSupplier.get();
         }
 
         if (delegate.isClosed()) {
-            log.warn("Cluster has been closed internally");
-            delegate = supplier.get();
+            log.warn("Session has been closed internally, reopening...");
+            delegate = sessionSupplier.get();
         }
 
-        verify(!delegate.isClosed(), "Newly created cluster has been immediately closed");
+        verify(!delegate.isClosed(), "Newly created session has been immediately closed");
 
         return delegate;
     }
 
-    @Override
+    /**
+     * Alias for get() method to maintain compatibility with code expecting getSession()
+     */
+    public synchronized CqlSession getSession()
+    {
+        return get();
+    }
+
     public synchronized void close()
     {
         closed = true;
-        if (delegate != null) {
+        if (delegate != null && !delegate.isClosed()) {
             delegate.close();
             delegate = null;
         }
     }
 
-    @Override
     public synchronized boolean isClosed()
     {
         return closed;
-    }
-
-    @Override
-    public synchronized CloseFuture closeAsync()
-    {
-        throw new UnsupportedOperationException();
     }
 }
