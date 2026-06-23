@@ -79,27 +79,6 @@ When both ``scale_writers`` and ``redistribute_writes`` are set to ``true``,
 
 The corresponding configuration property is :ref:`admin/properties:\`\`scale-writers\`\``.
 
-``task_writer_count``
-^^^^^^^^^^^^^^^^^^^^^
-
-* **Type:** ``integer``
-* **Default value:** ``1``
-
-Default number of local parallel table writer threads per worker. It is required
-to be a power of two for a Java query engine.
-
-The corresponding configuration property is :ref:`admin/properties:\`\`task.writer-count\`\``.
-
-``task_partitioned_writer_count``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* **Type:** ``integer``
-* **Default value:** ``task_writer_count``
-
-Number of local parallel table writer threads per worker for partitioned writes. If not
-set, the number set by ``task_writer_count`` will be used. It is required to be a power
-of two for a Java query engine.
-
 ``single_node_execution_enabled``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -391,6 +370,16 @@ writing due to compression or other factors). Setting this too high may cause th
 to become overloaded due to excessive resource utilization.
 
 The corresponding configuration property is :ref:`admin/properties:\`\`task.writer-count\`\``.
+
+``task_partitioned_writer_count``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* **Type:** ``integer``
+* **Default value:** ``task_writer_count``
+
+Number of local parallel table writer threads per worker for partitioned writes. If not
+set, the number set by ``task_writer_count`` will be used. It is required to be a power
+of two for a Java query engine.
 
 Optimizer Properties
 --------------------
